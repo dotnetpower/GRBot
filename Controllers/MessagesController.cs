@@ -41,6 +41,29 @@ namespace GBot
                 // Handle conversation state changes, like members being added and removed
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
+                IConversationUpdateActivity iConversationUpdated = message as IConversationUpdateActivity;
+                if (iConversationUpdated != null)
+                {
+                    ConnectorClient connector = new ConnectorClient(new System.Uri(message.ServiceUrl));
+
+                    foreach (var member in iConversationUpdated.MembersAdded ?? System.Array.Empty<ChannelAccount>())
+                    {
+                        // if the bot is added, then 
+                        if (member.Id == iConversationUpdated.Recipient.Id)
+                        {
+                            //except directline
+                            if (!message.ChannelId.ToLower().Equals("directline"))
+                            {
+                                var replyMessage = message.CreateReply();
+                                replyMessage.Recipient = message.From;
+                                replyMessage.Type = "message";
+                                replyMessage.TextFormat = TextFormatTypes.Plain;
+                                replyMessage.Text = "What's up man?";
+                                var replyMsg = connector.Conversations.SendToConversationAsync(replyMessage);
+                            }
+                        }
+                    }
+                }
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
