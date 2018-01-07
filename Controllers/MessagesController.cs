@@ -52,15 +52,15 @@ namespace GBot
                         if (member.Id == iConversationUpdated.Recipient.Id)
                         {
                             //except directline
-                            if (!message.ChannelId.ToLower().Equals("directline"))
-                            {
+                            //if (!message.ChannelId.ToLower().Equals("directline"))
+                            //{
                                 var replyMessage = message.CreateReply();
                                 replyMessage.Recipient = message.From;
                                 replyMessage.Type = "message";
                                 replyMessage.TextFormat = TextFormatTypes.Plain;
                                 replyMessage.Text = "What's up man?";
                                 var replyMsg = connector.Conversations.SendToConversationAsync(replyMessage);
-                            }
+                            //}
                         }
                     }
                 }
