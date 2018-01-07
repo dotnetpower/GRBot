@@ -28,6 +28,12 @@ namespace GBot
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+                name: "ping",
+                routeTemplate: "api/relay/{action}",
+                defaults: new {controller="Relay", action="", id="" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
